@@ -1,0 +1,15 @@
+[Unit]
+Description=systemd-resolved and docker DNS integration
+Requires=docker.service systemd-resolved.service
+After=docker.service systemd-resolved.service
+BindsTo=docker.service systemd-resolved.service
+
+[Service]
+Type=notify
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/etc/default/systemd-resolved-docker
+ExecStart=/usr/local/bin/systemd-resolved-docker
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
